@@ -1,42 +1,28 @@
 {% extends 'eventos/base.html' %}
 
+{% block page_title %}Bienvenido a la Plataforma de Eventos{% endblock %}
+
 {% block content %}
-<div style="text-align: center; padding: 40px;">
-    <h1>Plataforma de Gestión de Eventos</h1>
-    <h2>Organiza eventos con Django</h2>
-    
-    {% if user.is_authenticated %}
-        <h3 style="margin-bottom: 30px;">¡Bienvenido {{ user.username }}!</h3>
+<div class="p-5 mb-4 bg-light rounded-3 text-center">
+    <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Plataforma de Gestión de Eventos</h1>
+        <p class="fs-4">Organiza y gestiona tus eventos de manera fácil y eficiente con nuestra plataforma construida con Django.</p>
         
-        <div style="margin-bottom: 15px;">
-            <a href="{% url 'lista_eventos' %}" 
-               style="padding: 10px 20px; background-color: #007bff; color: white;
-                      text-decoration: none; border-radius: 5px; display: inline-block;">
-                Ver mis eventos
-            </a>
-        </div>
-        
-        <div>
-            <a href="{% url 'crear_evento' %}" 
-               style="padding: 10px 20px; background-color: #007bff; color: white;
-                      text-decoration: none; border-radius: 5px; display: inline-block;">
-                Crear nuevo evento
-            </a>
-        </div>
-    {% else %}
-        <p style="margin-bottom: 20px;">Para continuar, por favor, inicia sesión o regístrate.</p>
-        <div style="margin-top: 20px;">
-            <a href="{% url 'login' %}" 
-               style="padding: 10px 20px; background-color: #007bff; color: white;
-                      text-decoration: none; border-radius: 5px; margin-right: 15px;">
-                Iniciar Sesión
-            </a>
-            <a href="{% url 'registro' %}" 
-               style="padding: 10px 20px; background-color: #28a745; color: white;
-                      text-decoration: none; border-radius: 5px;">
-                Registrarse
-            </a>
-        </div>
-    {% endif %}
+        <hr class="my-4">
+
+        {% if user.is_authenticated %}
+            <p class="fs-5 mb-4">¡Hola de nuevo, {{ user.username }}! ¿Qué te gustaría hacer hoy?</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'lista_eventos' %}" class="btn btn-primary btn-lg px-4 gap-3"><i class="bi bi-list-stars"></i> Ver Mis Eventos</a>
+                <a href="{% url 'crear_evento' %}" class="btn btn-outline-secondary btn-lg px-4"><i class="bi bi-plus-circle"></i> Crear Nuevo Evento</a>
+            </div>
+        {% else %}
+            <p>Para comenzar a gestionar tus eventos, por favor, inicia sesión o crea una cuenta nueva.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 gap-3"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                <a href="{% url 'registro' %}" class="btn btn-success btn-lg px-4"><i class="bi bi-person-plus"></i> Registrarse</a>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

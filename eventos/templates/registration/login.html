@@ -1,11 +1,51 @@
 {% extends 'eventos/base.html' %}
 
+{% block page_title %}Iniciar Sesión{% endblock %}
+
 {% block content %}
-  <h2>Iniciar Sesión</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-  <p><a href="{% url 'registro' %}">¿No tienes cuenta? Regístrate</a></p>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-primary w-100"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</button>
+        </form>
+        <div class="text-center mt-3">
+            <p>¿No tienes una cuenta? <a href="{% url 'registro' %}">Regístrate aquí</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add bootstrap classes to form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        form.querySelectorAll('input, select, textarea').forEach(function(el) {
+            if (el.type !== 'checkbox') {
+                el.classList.add('form-control');
+            }
+        });
+    });
+</script>
 {% endblock %}
